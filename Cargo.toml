@@ -1,6 +1,7 @@
-[package]
-name = "c_cpp_toolchain"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
+members = [
+    "cpm"
+]
 
-[dependencies]
+
