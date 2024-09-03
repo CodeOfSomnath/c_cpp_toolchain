@@ -38,7 +38,7 @@ impl Parser {
         };
         let mut arg = args();
         
-        instance.help_message += format!("{} {}", arg.nth(0).unwrap(), exra_message.unwrap()).as_str();
+        instance.help_message += format!("{}\t{}\n\nOptions:\n\n", arg.nth(0).unwrap(), exra_message.unwrap()).as_str();
 
         return instance;
     }
@@ -121,4 +121,17 @@ impl Parser {
     pub fn get_long(&self, text: &str) -> i64 {
         self.longs.get(text).unwrap().clone()
     }
+
+    pub fn set_helpmessage(&mut self, message: &str) {
+        self.help_message += format!("--help\t\t\t{}\n", message).as_str();
+    }
+
+    pub fn print_help(&mut self) {
+        if !self.help_message.contains("--help") {
+            self.set_helpmessage("Print help message");
+        }
+
+        println!("{}", self.help_message);
+    }
+    
 }
