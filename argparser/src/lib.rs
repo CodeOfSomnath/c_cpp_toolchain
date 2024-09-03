@@ -17,7 +17,7 @@ use std::{collections::{btree_map::Values, HashMap}, env::args};
 /// let value = parser.get_int();
 /// println!("{}", value);
 /// ```
-struct Parser {
+pub struct Parser {
     strings: HashMap<String, String>,
     ints: HashMap<String, i32>,
     bools: HashMap<String, bool>,
@@ -75,28 +75,31 @@ impl Parser {
     }
 
     pub fn parse(&mut self) {
-        let mut arg_values = args();
         let mut value;
-        for i in 0..arg_values.len() {
-            value = arg_values.nth(i).unwrap();
+        let mut args_vec: Vec<String> = args().collect();
+        
+        for i in 0..args_vec.len() {
+            value = args_vec[i].clone();
             if value.contains("--") {
                 if self.bools.contains_key(&value[2..]) {
-                    self.bools.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                    self.bools.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
                 }
                 if self.doubles.contains_key(&value[2..]) {
-                    self.doubles.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                    self.doubles.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
                 }
                 if self.ints.contains_key(&value[2..]) {
-                    self.ints.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                    self.ints.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
                 }
                 if self.strings.contains_key(&value[2..]) {
-                    self.strings.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                    self.strings.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
                 }
                 if self.longs.contains_key(&value[2..]) {
-                    self.longs.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                    self.longs.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
                 }
             }
         }
+
+        
     }
 
     pub fn get_int(&self, text: &str) -> i32 {
