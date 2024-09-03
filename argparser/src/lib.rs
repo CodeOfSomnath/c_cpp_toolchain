@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use std::{collections::HashMap, env::args};
+use std::{collections::{btree_map::Values, HashMap}, env::args};
 
 // creating a basic structure for relate functions
 /// This is the structure to store all the values
@@ -74,25 +74,48 @@ impl Parser {
         self.help_message += message.as_str();
     }
 
-    pub fn parse() {}
-
-    pub fn get_int() -> i32 {
-        0
+    pub fn parse(&mut self) {
+        let mut arg_values = args();
+        let mut value;
+        for i in 0..arg_values.len() {
+            value = arg_values.nth(i).unwrap();
+            if value.contains("--") {
+                if self.bools.contains_key(&value[2..]) {
+                    self.bools.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                }
+                if self.doubles.contains_key(&value[2..]) {
+                    self.doubles.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                }
+                if self.ints.contains_key(&value[2..]) {
+                    self.ints.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                }
+                if self.strings.contains_key(&value[2..]) {
+                    self.strings.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                }
+                if self.longs.contains_key(&value[2..]) {
+                    self.longs.insert((&value[2..]).to_string(), arg_values.nth(i+1).unwrap().parse().unwrap());
+                }
+            }
+        }
     }
 
-    pub fn get_bool() -> bool {
-        false
+    pub fn get_int(&self, text: &str) -> i32 {
+        self.ints.get(text).unwrap().clone()
     }
 
-    pub fn get_string() -> String {
-        "".to_string()
+    pub fn get_bool(&self, text: &str) -> bool {
+        self.bools.get(text).unwrap().clone()
     }
 
-    pub fn get_double() -> f64 {
-        0.0
+    pub fn get_string(&self, text: &str) -> String {
+        self.strings.get(text).unwrap().clone()
     }
 
-    pub fn get_long() -> i64 {
-        0
+    pub fn get_double(&self, text: &str) -> f64 {
+        self.doubles.get(text).unwrap().clone()
+    }
+
+    pub fn get_long(&self, text: &str) -> i64 {
+        self.longs.get(text).unwrap().clone()
     }
 }
