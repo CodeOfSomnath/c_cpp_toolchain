@@ -1,6 +1,9 @@
 #![allow(unused)]
 
-use std::{collections::{btree_map::Values, HashMap}, env::args};
+use std::{
+    collections::{btree_map::Values, HashMap},
+    env::args,
+};
 
 // creating a basic structure for relate functions
 /// This is the structure to store all the values
@@ -23,7 +26,7 @@ pub struct Parser {
     bools: HashMap<String, bool>,
     doubles: HashMap<String, f64>,
     longs: HashMap<String, i64>,
-    help_message: String 
+    help_message: String,
 }
 
 impl Parser {
@@ -34,11 +37,16 @@ impl Parser {
             bools: HashMap::new(),
             doubles: HashMap::new(),
             longs: HashMap::new(),
-            help_message: String::new()
+            help_message: String::new(),
         };
         let mut arg = args();
-        
-        instance.help_message += format!("{}\t{}\n\nOptions:\n\n", arg.nth(0).unwrap(), exra_message.unwrap()).as_str();
+
+        instance.help_message += format!(
+            "{}\t{}\n\nOptions:\n\n",
+            arg.nth(0).unwrap(),
+            exra_message.unwrap()
+        )
+        .as_str();
 
         return instance;
     }
@@ -47,7 +55,6 @@ impl Parser {
         self.ints.insert(text.to_string(), default);
         let message = format!("--{}\t\t\t{}\n", text, help);
         self.help_message += message.as_str();
-
     }
 
     pub fn add_bool(&mut self, text: &str, help: &str, default: bool) {
@@ -77,29 +84,32 @@ impl Parser {
     pub fn parse(&mut self) {
         let mut value;
         let mut args_vec: Vec<String> = args().collect();
-        
+
         for i in 0..args_vec.len() {
             value = args_vec[i].clone();
             if value.contains("--") {
                 if self.bools.contains_key(&value[2..]) {
-                    self.bools.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
+                    self.bools
+                        .insert((&value[2..]).to_string(), args_vec[i + 1].parse().unwrap());
                 }
                 if self.doubles.contains_key(&value[2..]) {
-                    self.doubles.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
+                    self.doubles
+                        .insert((&value[2..]).to_string(), args_vec[i + 1].parse().unwrap());
                 }
                 if self.ints.contains_key(&value[2..]) {
-                    self.ints.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
+                    self.ints
+                        .insert((&value[2..]).to_string(), args_vec[i + 1].parse().unwrap());
                 }
                 if self.strings.contains_key(&value[2..]) {
-                    self.strings.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
+                    self.strings
+                        .insert((&value[2..]).to_string(), args_vec[i + 1].parse().unwrap());
                 }
                 if self.longs.contains_key(&value[2..]) {
-                    self.longs.insert((&value[2..]).to_string(), args_vec[i+1].parse().unwrap());
+                    self.longs
+                        .insert((&value[2..]).to_string(), args_vec[i + 1].parse().unwrap());
                 }
             }
         }
-
-        
     }
 
     pub fn get_int(&self, text: &str) -> i32 {
@@ -133,5 +143,4 @@ impl Parser {
 
         println!("{}", self.help_message);
     }
-    
 }

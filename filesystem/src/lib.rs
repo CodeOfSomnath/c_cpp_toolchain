@@ -6,7 +6,6 @@ pub fn create_new_folder(folder_path: &str) {}
 
 struct Template;
 
-
 impl Template {
     pub fn new_bin_template() -> Self {
         Self
@@ -19,5 +18,4 @@ impl Template {
     pub fn new_cmake_template() -> Self {
         Self
     }
-
 }

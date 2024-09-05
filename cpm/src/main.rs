@@ -2,7 +2,6 @@
 
 // modules
 
-
 fn make_parser() -> argparser::Parser {
     let mut parser = argparser::Parser::new(Some("[options] [values]"));
 
@@ -16,6 +15,5 @@ fn make_parser() -> argparser::Parser {
 }
 
 fn main() {
-    let mut parser = make_parser();
-    
+    let parser = make_parser();
 }
