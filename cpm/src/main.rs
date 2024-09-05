@@ -1,13 +1,20 @@
-// This is main package manager binarary for distribution
+/// This is main package manager binarary for distribution
 
-use std::env::args;
+// modules
 
-use argparser;
+
+fn make_parser() -> argparser::Parser {
+    let mut parser = argparser::Parser::new(Some("[options] [values]"));
+
+    parser.set_helpmessage("Shows help message");
+    parser.add_string("new", "Create new project", "");
+    parser.add_bool("lib", "Create new library project", false);
+    parser.add_string("path", "Path for project", "");
+    parser.parse();
+    return parser;
+}
 
 fn main() {
-    let mut parser = argparser::Parser::new(Some("Testing project"));
-    parser.add_int("big", "This is a help", 0);
-    parser.parse();
-    let value = parser.get_int("big");
-    println!("{}", value);
+    let mut parser = make_parser();
+    
 }
