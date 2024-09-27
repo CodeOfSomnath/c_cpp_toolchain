@@ -16,4 +16,5 @@ fn make_parser() -> argparser::Parser {
 
 fn main() {
     let parser = make_parser();
+    
 }
